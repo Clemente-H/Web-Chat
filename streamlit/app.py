@@ -89,3 +89,5 @@ if instruction := st.chat_input(placeholder="Escribir aqui :D"):
         st.write(response["output"])
         #st.chat_message("assistant").write(response["output"])
         st.session_state.steps[str(len(msgs.messages) - 1)] = response["intermediate_steps"]
+        msgs.add_user_message(instruction)
+        msgs.add_ai_message(response["output"])
