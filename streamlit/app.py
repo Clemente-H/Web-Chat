@@ -65,7 +65,7 @@ for idx, msg in enumerate(msgs.messages):
                 st.write(step[1])
         st.write(msg.content)
 
-if instruction := st.chat_input(placeholder="Who won the Women's U.S. Open in 2018?"):
+if instruction := st.chat_input(placeholder="Escribir aqui :D"):
     st.chat_message("user").write(instruction)
 
     llm = Together(
@@ -78,21 +78,14 @@ if instruction := st.chat_input(placeholder="Who won the Women's U.S. Open in 20
 
     tools = [image_captioner, search]
     agent = create_structured_chat_agent(llm, tools, prompt)
-    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
+    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True, return_intermediate_steps = True)
 
-    #chat_agent = ConversationalChatAgent.from_llm_and_tools(llm=llm, tools=tools)
-    # executor = AgentExecutor.from_agent_and_tools(
-    #     agent=chat_agent,
-    #     tools=tools,
-    #     memory=memory,
-    #     return_intermediate_steps=True,
-    #     handle_parsing_errors=True,
-    # )
     with st.chat_message("assistant"):
         st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
         cfg = RunnableConfig()
         cfg["callbacks"] = [st_cb]
-        response = agent_executor.invoke({"input": instruction})
+        response = agent_executor.invoke({"input": instruction},cfg)
         #response = executor.invoke(prompt + instruction, cfg)
         st.write(response["output"])
-        #st.session_state.steps[str(len(msgs.messages) - 1)] = response["intermediate_steps"]
+        #st.chat_message("assistant").write(response["output"])
+        st.session_state.steps[str(len(msgs.messages) - 1)] = response["intermediate_steps"]
