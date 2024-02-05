@@ -17,8 +17,8 @@ from PIL import Image
 
 
 import streamlit as st
-st.set_page_config(page_title="LangChain: Chat with search", page_icon="🦜")
-st.title("🦜 LangChain: Chat with search")
+st.set_page_config(page_title="LangChain: Chat with search", page_icon="🦑")
+st.title("🦑 Together AI & Langchain: Search and Image Description Agent")
 
 load_dotenv()
 blip_processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
@@ -42,7 +42,7 @@ search = TavilySearchResults(max_results=1)
 prompt = hub.pull("hwchase17/structured-chat-agent")
 prompt[0].prompt.template = prompt[0].prompt.template[0:394] + "```\n\n\nFor example, if you want to use a tool to get an image's caption, your $JSON_BLOB might look like this:\n\n```\n{{\n    'action': 'image_captioner_json', \n    'action_input': {{'query': 'images url'}}\n}}```" + "```\n\n\nIf you want to use a tool to search for information, your $JSON_BLOB might look like this:\n\n```\n{{\n    'action': 'tavily_search_results_json', \n    'action_input': {{'query': 'Example search query'}}\n}}```"  +prompt[0].prompt.template[394:]
 
-openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+#openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 
 msgs = StreamlitChatMessageHistory()
 memory = ConversationBufferMemory(
