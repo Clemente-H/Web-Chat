@@ -72,9 +72,3 @@ Navigate to the URL provided by Streamlit (usually `http://localhost:8501`) in y
 ## Contributing
 
 Contributions to improve the application are welcome. Please feel free to fork the repository, make changes, and submit pull requests.
-
-## License
-
-Please include your licensing information here.
-
----
